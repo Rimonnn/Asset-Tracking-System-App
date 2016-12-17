@@ -1,0 +1,56 @@
+﻿@using AssetTrakingSystemApp.Models
+@model AssetTrakingSystemApp.Models.OrganizationBranch
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.message != null)
+{
+    <h4>@ViewBag.message</h4>
+}
+<h2> Save organization Branch</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>@Html.LabelFor(c => c.Name)</td>
+            <td>@Html.TextBoxFor(c => c.Name)</td>
+            <td>@Html.ValidationMessageFor(c => c.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.ShortName)</td>
+            <td>@Html.TextBoxFor(c => c.ShortName)</td>
+            <td>@Html.ValidationMessageFor(c => c.ShortName)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.OrganizationId)</td>
+            <td>@Html.DropDownListFor(c=>c.OrganizationId,new SelectList(ViewBag.organizationList,"Id","Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.OrganizationId)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save" /></td>
+        </tr>
+    </table>
+    <br /><br />
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Short Name</th>
+            @*<th>Under of Organization</th>*@
+           
+        </tr>
+        @foreach (var org in ((List<OrganizationBranch>)ViewBag.OrgBranchList))
+        {
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.ShortName</td>
+                @*<td @org.OrganizationId>@org.Organization.Name</td>*@
+                
+            </tr>
+        }
+
+    </table>
+
+}

@@ -1,0 +1,63 @@
+﻿@using AssetTrakingSystemApp.Models
+@model AssetTrakingSystemApp.Models.SubCategory
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.message != null)
+{
+    <h4>@ViewBag.message</h4>
+}
+
+<h2>Save Sub Category</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>@Html.LabelFor(c => c.Name)</td>
+            <td>@Html.TextBoxFor(c => c.Name)</td>
+            <td>@Html.ValidationMessageFor(c => c.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.Code)</td>
+            <td>@Html.TextBoxFor(c => c.Code)</td>
+            <td>@Html.ValidationMessageFor(c => c.Code)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.GeneralCtegoryId)</td>
+            <td>@Html.DropDownListFor(c => c.GeneralCtegoryId, new SelectList(ViewBag.GeneralcategoryList, "Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.GeneralCtegoryId)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.CategorySetupId)</td>
+            <td>@Html.DropDownListFor(c => c.CategorySetupId, new SelectList(ViewBag.CategorySetupList, "Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.CategorySetupId)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save" /></td>
+        </tr>
+    </table>
+    <br /><br />
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            @*<th>Under of Organization</th>*@
+
+        </tr>
+        @foreach (var org in ((List<SubCategory>)ViewBag.SubCategoryList))
+        {
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.Code</td>
+              
+
+            </tr>
+        }
+
+    </table>
+
+}

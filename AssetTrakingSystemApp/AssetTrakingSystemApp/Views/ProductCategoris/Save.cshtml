@@ -1,0 +1,76 @@
+﻿@using AssetTrakingSystemApp.Models
+@model AssetTrakingSystemApp.Models.ProductCategory
+
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Save Product details/Model details</h2>
+
+@if (ViewBag.message != null)
+{
+    <h4>@ViewBag.message</h4>
+}
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>@Html.LabelFor(c => c.Name)</td>
+            <td>@Html.TextBoxFor(c => c.Name)</td>
+            <td>@Html.ValidationMessageFor(c => c.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.Code)</td>
+            <td>@Html.TextBoxFor(c => c.Code)</td>
+            <td>@Html.ValidationMessageFor(c => c.Code)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.ProductDescription)</td>
+            <td>@Html.TextAreaFor(c => c.ProductDescription)</td>
+            <td>@Html.ValidationMessageFor(c => c.ProductDescription)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.SubCategoryId)</td>
+            <td>@Html.DropDownListFor(c => c.SubCategoryId, new SelectList(ViewBag.SubCategoriesList, "Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.SubCategoryId)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.CategorySetupId)</td>
+            <td>@Html.DropDownListFor(c => c.CategorySetupId, new SelectList(ViewBag.ProducCategoriesList, "Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.CategorySetupId)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.GeneralCategoryId)</td>
+            <td>@Html.DropDownListFor(c => c.GeneralCategoryId, new SelectList(ViewBag.GeneralCategorisList, "Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.GeneralCategoryId)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save" /></td>
+        </tr>
+    </table>
+    <br/><br/>
+    
+     @*<table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Code</th>
+            
+
+        </tr>
+        @foreach (var org in ((List<ProductCategory>)ViewBag.ProducCategoriesList))
+        {
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.Code</td>
+              
+
+            </tr>
+        }
+
+    </table>*@
+ 
+
+}

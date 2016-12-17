@@ -1,0 +1,64 @@
+﻿@using AssetTrakingSystemApp.Models
+@model AssetTrakingSystemApp.Models.AssetLocation
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.message != null)
+{
+    <h4>@ViewBag.message</h4>
+}
+<h2>Save Asset Location</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>@Html.LabelFor(c => c.Name)</td>
+            <td>@Html.TextBoxFor(c => c.Name)</td>
+            <td>@Html.ValidationMessageFor(c => c.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.ShortName)</td>
+            <td>@Html.TextBoxFor(c => c.ShortName)</td>
+            <td>@Html.ValidationMessageFor(c => c.ShortName)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.OrganaizationBranchId)</td>
+            <td>@Html.DropDownListFor(c => c.OrganaizationBranchId, new SelectList( ViewBag.organizationList,"Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.OrganaizationBranchId)</td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(c => c.OrganigationId)</td>
+            <td>@Html.DropDownListFor(c => c.OrganigationId, new SelectList(ViewBag.OrgBranchList,"Id", "Name"))</td>
+            <td>@Html.ValidationMessageFor(c => c.OrganigationId)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Save" /></td>
+        </tr>
+    </table>
+    <br/><br/>
+    
+    
+    
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Short Name</th>
+            @*<th>Organization branch</th>
+            <th>Organization </th>*@
+        </tr>
+        @foreach (var org in ((List<AssetLocation>)ViewBag.AssetLocationList))
+        {
+            <tr>
+                <td>@org.Name</td>
+                <td>@org.ShortName</td>
+                @*<td @org.OrganigationId>@org.Organization.Name</td>
+                <td @org.OrganaizationBranchId>@org.OrganizationBranch.Name</td>*@
+            </tr>
+        }
+
+    </table>
+
+}
