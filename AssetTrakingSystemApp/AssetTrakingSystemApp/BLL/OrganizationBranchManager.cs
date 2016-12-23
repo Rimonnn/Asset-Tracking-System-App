@@ -30,5 +30,10 @@ namespace AssetTrakingSystemApp.BLL
         {
             return repository.OrganizationBranches();
         }
+
+        public List<OrganizationBranch> GetOrganizationBranchIdByOrganizationId(int organizationId)
+        {
+            return repository.GetOrganizationBranchIdByOrganizationId(organizationId);
+        }
     }
 }

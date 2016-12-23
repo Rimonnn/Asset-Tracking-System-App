@@ -6,38 +6,42 @@
 }
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
-<h2> Save organization Branch</h2>
+<h2 class="text-info"> Save organization Branch</h2>
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.ShortName)</td>
-            <td>@Html.TextBoxFor(c => c.ShortName)</td>
-            <td>@Html.ValidationMessageFor(c => c.ShortName)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.OrganizationId)</td>
-            <td>@Html.DropDownListFor(c=>c.OrganizationId,new SelectList(ViewBag.organizationList,"Id","Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.OrganizationId)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save" /></td>
-        </tr>
-    </table>
+    <div>
+        @Html.LabelFor(c => c.OrganizationId)       
+        <select class="form-control" id=""  name="OrganizationId">
+            <option>select..</option>
+            @foreach (var sym in ((List<Organization>)ViewBag.organizationList))
+            {
+                <option value="@sym.Id">@sym.Name</option>
+            }
+        </select>       
+        @Html.ValidationMessageFor(c => c.OrganizationId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div>
+        <td>@Html.LabelFor(c => c.ShortName)</td>
+        <td>@Html.TextBoxFor(c => c.ShortName, new {@class = "form-control"})</td>
+        <td>@Html.ValidationMessageFor(c => c.ShortName)</td>
+    </div>
+    <br/>
+    <div>
+        <button type="submit"  class="btn-primary">Save</button>
+    </div>
     <br /><br />
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Short Name</th>
+            <th class="text-info">Name</th>
+            <th class="text-info">Short Name</th>
             @*<th>Under of Organization</th>*@
            
         </tr>

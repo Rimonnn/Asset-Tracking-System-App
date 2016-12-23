@@ -30,30 +30,38 @@ namespace AssetTrakingSystemApp.Controllers
             ViewBag.GeneralCategoryList = generalCatagories;
             List<CategorySetup> categorySetups = manager.GetAll();
             ViewBag.CategorySetupList = categorySetups;
-            if (categorySetup.Code.Length > 5)
+            if (categorySetup.Name == null || categorySetup.Code == null || categorySetup.GeneralCategoryId == 0)
             {
-                ViewBag.message = "Code lenth is greater than 5 not allowed";
+                ViewBag.message = "input field is requird";
             }
             else
             {
-                bool IscodeExist = manager.isCodeExist(categorySetup.Code);
-                if (IscodeExist)
+                if (categorySetup.Code.Length > 5)
                 {
-                    ViewBag.message = "Code is already exist";
+                    ViewBag.message = "Code lenth is greater than 5 not allowed";
                 }
                 else
                 {
-                    bool Save = manager.Add(categorySetup);
-                    if (Save)
+                    bool IscodeExist = manager.isCodeExist(categorySetup.Code);
+                    if (IscodeExist)
                     {
-                        ViewBag.message = "Save successfull";
+                        ViewBag.message = "Code is already exist";
                     }
                     else
                     {
-                        ViewBag.message = "Save failed";
+                        bool Save = manager.Add(categorySetup);
+                        if (Save)
+                        {
+                            ViewBag.message = "Save successfull";
+                        }
+                        else
+                        {
+                            ViewBag.message = "Save failed";
+                        }
                     }
                 }
             }
+            
          
             return View();
         }

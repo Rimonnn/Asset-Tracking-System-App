@@ -10,7 +10,7 @@ namespace AssetTrakingSystemApp.Models
     public class ProductCategory
     {
         public int Id { get; set; }
-        [DisplayName(" Name")]
+        [DisplayName("Product Name")]
         [Required(ErrorMessage = "Name Field is required")]
         public string Name { get; set; }
         [DisplayName("Product Code")]

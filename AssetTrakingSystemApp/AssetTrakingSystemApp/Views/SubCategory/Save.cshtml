@@ -7,44 +7,54 @@
 
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
 
-<h2>Save Sub Category</h2>
+<h2 class="text-info">Save Sub Category</h2>
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Code)</td>
-            <td>@Html.TextBoxFor(c => c.Code)</td>
-            <td>@Html.ValidationMessageFor(c => c.Code)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.GeneralCtegoryId)</td>
-            <td>@Html.DropDownListFor(c => c.GeneralCtegoryId, new SelectList(ViewBag.GeneralcategoryList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.GeneralCtegoryId)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.CategorySetupId)</td>
-            <td>@Html.DropDownListFor(c => c.CategorySetupId, new SelectList(ViewBag.CategorySetupList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.CategorySetupId)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save" /></td>
-        </tr>
-    </table>
-    <br /><br />
+    <div>
+        @Html.LabelFor(c => c.GeneralCtegoryId)
+        <select class="form-control" id="GeneralCtegoryId" name="GeneralCtegoryId">
+            <option>select..</option>
+            @foreach (var sym in ((List<GeneralCatagory>)ViewBag.GeneralcategoryList))
+            {
+                <option value="@sym.Id">@sym.Name</option>
+            }
+        </select>
+
+        @*@Html.DropDownListFor(c => c.GeneralCtegoryId, new SelectList(ViewBag.GeneralcategoryList, "Id", "Name"))*@
+        @Html.ValidationMessageFor(c => c.GeneralCtegoryId)
+    </div>
+
+    <div>
+        @Html.LabelFor(c => c.CategorySetupId)
+        <select id="CategorySetupId" class="form-control" name="CategorySetupId">
+            <option>Select..</option>
+        </select>
+        @Html.ValidationMessageFor(c => c.CategorySetupId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+
+    <div>
+        @Html.LabelFor(c => c.Code)
+        @Html.TextBoxFor(c => c.Code,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.Code)
+    </div>
+    <br/><br/>
+    <div>
+        <button type="submit" class="btn-primary">Save</button>
+    </div>
+    <br/>
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Code</th>
+            <th class="text-info">Name</th>
+            <th class="text-info">Code</th>
             @*<th>Under of Organization</th>*@
 
         </tr>
@@ -61,3 +71,42 @@
     </table>
 
 }
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document)
+        .ready(function () {
+
+            //for get OrganizationBranch
+
+            $("#GeneralCtegoryId")
+                .change(function() {
+
+                    var distId = $("#GeneralCtegoryId").val();
+                    $("#CategorySetupId").empty();
+                    var json = {
+                        generalCategoryId: distId
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetCategorySetupIdByGeneralCategoryId", "SubCategory")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+
+                        success: function(data) {
+                            $("#CategorySetupId").prepend('<option >select..</option>');
+                            //alert(data);
+                            $.each(data,
+                                function(key, value) {
+                                    //alert(key);
+
+                                    $("#CategorySetupId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+
+
+                                });
+                        }
+                    });
+                });
+        });
+</script>

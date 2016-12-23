@@ -8,57 +8,57 @@
 {
     <h4>@ViewBag.message</h4>
 }
-<h2>User Registration</h2>
+<h2 class="text-info">User Registration</h2>
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.FirstName)</td>
-            <td>@Html.TextBoxFor(c => c.FirstName)</td>
-            <td>@Html.ValidationMessageFor(c => c.FirstName)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.LastName)</td>
-            <td>@Html.TextBoxFor(c => c.LastName)</td>
-            <td>@Html.ValidationMessageFor(c => c.LastName)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Organization)</td>
-            <td>@Html.TextBoxFor(c => c.Organization)</td>
-            <td>@Html.ValidationMessageFor(c => c.Organization)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Designation)</td>
-            <td>@Html.TextBoxFor(c => c.Designation)</td>
-            <td>@Html.ValidationMessageFor(c => c.Designation)</td>
-        </tr>      
-        <tr>
-            <td>@Html.LabelFor(c => c.Email)</td>
-            <td>@Html.TextBoxFor(c => c.Email)</td>
-            <td>@Html.ValidationMessageFor(c => c.Email)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Phone)</td>
-            <td>@Html.TextBoxFor(c => c.Phone)</td>
-            <td>@Html.ValidationMessageFor(c => c.Phone)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Password)</td>
-            <td>@Html.TextBoxFor(c => c.Password)</td>
-            <td>@Html.ValidationMessageFor(c => c.Password)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Gender)</td>
-            <td>@Html.RadioButtonFor(c => c.Gender, "Male")Male
-            @Html.RadioButtonFor(c => c.Gender, "Female")Female
-            @Html.RadioButtonFor(c => c.Gender, "Unknown")Unknown</td>
-            <td>@Html.ValidationMessageFor(c => c.Gender)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save"/></td>
-        </tr>
-    </table>
+    <div>
+        @Html.LabelFor(c => c.FirstName)
+        @Html.TextBoxFor(c => c.FirstName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.FirstName)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.LastName)
+        @Html.TextBoxFor(c => c.LastName, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.LastName)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Organization)
+        @Html.TextBoxFor(c => c.Organization, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Organization)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Designation)
+        @Html.TextBoxFor(c => c.Designation, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Designation)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Email)
+        @Html.TextBoxFor(c => c.Email, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Email)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Phone)
+        @Html.TextBoxFor(c => c.Phone, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Phone)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Password)
+        @Html.TextBoxFor(c => c.Password, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Password)
+    </div>
+    <br/>
+    <div>
+         @Html.LabelFor(c => c.Gender)
 
+         @Html.RadioButtonFor(c => c.Gender, "Male")Male
+         @Html.RadioButtonFor(c => c.Gender, "Female")Female
+         @Html.RadioButtonFor(c => c.Gender, "Unknown")Unknown
 
+         @Html.ValidationMessageFor(c => c.Gender)
+       
+    </div>
+<br/>
+    <div>
+        <button type="submit" class="btn-primary">Save</button>
+    </div>
 }

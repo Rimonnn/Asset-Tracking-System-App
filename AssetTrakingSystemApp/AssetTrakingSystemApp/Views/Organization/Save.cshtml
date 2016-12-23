@@ -7,38 +7,39 @@
 
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
-<h2>Save Organization</h2>
+<h2 class="text-info">Save Organization</h2>
  @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Code)</td>
-            <td>@Html.TextBoxFor(c => c.Code)</td>
-            <td>@Html.ValidationMessageFor(c => c.Code)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Location)</td>
-            <td>@Html.TextBoxFor(c => c.Location)</td>
-            <td>@Html.ValidationMessageFor(c => c.Location)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save"/></td>
-        </tr>
-    </table>
-     <br/><br/>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Code)
+        @Html.TextBoxFor(c => c.Code, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Code)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Location)
+        @Html.TextBoxFor(c => c.Location, new { @class = "form-control" })
+        @Html.ValidationMessageFor(c => c.Location) 
+    </div>
+     <br/>
+    <div>
+        <button type="submit" class="btn btn-primary">Save</button>
+       
+    </div>
+           
+        
+    <br/>
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Code</th>
-            <th>Location</th>
+            <th class="text-info">Name</th>
+            <th class="text-info">Code</th>
+            <th class="text-info">Location</th>
         </tr>
         @foreach (var org in ((List<Organization>) ViewBag.organizationList))
         {

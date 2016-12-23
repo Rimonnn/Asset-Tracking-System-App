@@ -31,26 +31,33 @@ namespace AssetTrakingSystemApp.Controllers
 
             List<OrganizationBranch> organizationBranches = orgBranchManager.OrganizationBranches();
             ViewBag.OrgBranchList = organizationBranches;
-
-            bool IsShortNameExist = orgBranchManager.IsShortNameExist(orgBranch.ShortName);
-
-           
-            if (IsShortNameExist)
+            if (orgBranch.ShortName.Length > 5)
             {
-                ViewBag.message = "Short Name is already exist !";
+                ViewBag.message = "Short name is to be maximum 5 character ";
             }
             else
             {
-                bool Save = orgBranchManager.Add(orgBranch);
-                if (Save)
+                bool IsShortNameExist = orgBranchManager.IsShortNameExist(orgBranch.ShortName);
+
+
+                if (IsShortNameExist)
                 {
-                    ViewBag.message = "Save Successful";
+                    ViewBag.message = "Short Name is already exist !";
                 }
                 else
                 {
-                    ViewBag.message = "Save failed";
-                }
+                    bool Save = orgBranchManager.Add(orgBranch);
+                    if (Save)
+                    {
+                        ViewBag.message = "Save Successful";
+                    }
+                    else
+                    {
+                        ViewBag.message = "Save failed";
+                    }
+                } 
             }
+           
 
            
             return View();

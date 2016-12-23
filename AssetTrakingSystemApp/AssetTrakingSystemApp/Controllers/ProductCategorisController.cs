@@ -41,32 +41,47 @@ namespace AssetTrakingSystemApp.Controllers
             ViewBag.ProducCategoriesList = categorySetups;
             List<GeneralCatagory> generalCatagories = generalCategoryManager.GetAll();
             ViewBag.GeneralCategorisList = generalCatagories;
-            if (productCategory.Code.Length <5)
+
+            if (productCategory.Name == null || productCategory.Code == null || productCategory.GeneralCategoryId == 0 ||
+                productCategory.CategorySetupId == 0 || productCategory.SubCategoryId == 0)
             {
-                ViewBag.message = "code lenth is greater than 5 which is not allowed";
+                ViewBag.message = "Input field is requird";
             }
             else
             {
-                bool isCodeExist = productCategoriesManager.isCodeExist(productCategory.Code);
-                if (isCodeExist)
+                if (productCategory.Code.Length > 5)
                 {
-                    ViewBag.message = "Code is already exist";
+                    ViewBag.message = "code lenth is greater than 5 which is not allowed";
                 }
                 else
                 {
-                    bool save = productCategoriesManager.Add(productCategory);
-                    if (save)
+                    bool isCodeExist = productCategoriesManager.isCodeExist(productCategory.Code);
+                    if (isCodeExist)
                     {
-                        ViewBag.message = "Save successfull";
+                        ViewBag.message = "Code is already exist";
                     }
                     else
                     {
-                        ViewBag.message = "Save failed";
+                        bool save = productCategoriesManager.Add(productCategory);
+                        if (save)
+                        {
+                            ViewBag.message = "Save successfull";
+                        }
+                        else
+                        {
+                            ViewBag.message = "Save failed";
+                        }
                     }
-                }  
+                }
             }
+         
             
             return View();
+        }
+        public JsonResult GetCategorySetupIdByGeneralCategoryId(int generalCategoryId)
+        {
+            var CategorySetupIdLists = categorySetupManager.GetCategorySetupIdByGeneralCategoryId(generalCategoryId);
+            return Json(CategorySetupIdLists, JsonRequestBehavior.AllowGet);
         }
 	}
 }

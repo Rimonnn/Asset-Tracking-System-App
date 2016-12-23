@@ -33,6 +33,12 @@ namespace AssetTrakingSystemApp.DAL
         {
             var organizationBranches = db.OrganizationBranches.ToList();
             return organizationBranches;
+        }
+        public List<OrganizationBranch> GetOrganizationBranchIdByOrganizationId(int organizationId)
+        {
+            var OrganizationBranchLists = db.OrganizationBranches.Where(c => c.OrganizationId == organizationId).ToList();
+
+            return OrganizationBranchLists.ToList();
         } 
     }
 }

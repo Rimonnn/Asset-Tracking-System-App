@@ -6,39 +6,44 @@
 }
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
 
-<h2>Save  Category</h2>
+<h2 class="text-info">Save  Category</h2>
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Code)</td>
-            <td>@Html.TextBoxFor(c => c.Code)</td>
-            <td>@Html.ValidationMessageFor(c => c.Code)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.GeneralCategoryId)</td>
-            <td>@Html.DropDownListFor(c => c.GeneralCategoryId, new SelectList(ViewBag.GeneralCategoryList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.GeneralCategoryId)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save" /></td>
-        </tr>
-    </table>
+    <div>
+        @Html.LabelFor(c => c.GeneralCategoryId)
+        <select class="form-control" id="" name="GeneralCategoryId">
+            <option>select..</option>
+            @foreach (var sym in ((List<GeneralCatagory>)ViewBag.GeneralCategoryList))
+            {
+                <option value="@sym.Id">@sym.Name</option>
+            }
+        </select>       
+        @*@Html.DropDownListFor(c => c.GeneralCategoryId, new SelectList(ViewBag.GeneralCategoryList, "Id", "Name"), new {@class = "form-control"})*@
+        @Html.ValidationMessageFor(c => c.GeneralCategoryId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Code)
+        @Html.TextBoxFor(c => c.Code,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.Code)
+    </div>
+    <br/>
+    <div>
+        <button type="submit" class="btn-primary">Save</button>
+    </div>
     <br /><br />
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Short Name</th>
+            <th class="text-info">Name</th>
+            <th class="text-info">Short Name</th>
             @*<th>Under of Organization</th>*@
 
         </tr>

@@ -36,28 +36,50 @@ namespace AssetTrakingSystemApp.Controllers
             ViewBag.organizationList = organizations.ToList();
             List<OrganizationBranch> organizationBranches = orgManager.OrganizationBranches();
             ViewBag.OrgBranchList = organizationBranches;
-
-            bool IsShortNameExist = assetmanager.IsShortNameExist(assetLocation.ShortName);
-            if (IsShortNameExist)
+            if (assetLocation.Name == null || assetLocation.ShortName == null || assetLocation.OrganigationId == 0 ||
+                assetLocation.OrganigationId == 0)
             {
-                ViewBag.message = "Short name is already exist !";
-                
+                ViewBag.message = "Input filed is requierd";
             }
             else
             {
-                bool Save = assetmanager.Add(assetLocation);
-                if (Save)
+                if (assetLocation.ShortName.Length > 5)
                 {
-                    ViewBag.message = "Save Location Successfull !";
+                    ViewBag.message = "Short name filed is to be maximum 5 digit";
                 }
                 else
                 {
-                    ViewBag.message = "Save failed";
+                    bool IsShortNameExist = assetmanager.IsShortNameExist(assetLocation.ShortName);
+                    if (IsShortNameExist)
+                    {
+                        ViewBag.message = "Short name is already exist !";
+
+                    }
+                    else
+                    {
+                        bool Save = assetmanager.Add(assetLocation);
+                        if (Save)
+                        {
+                            ViewBag.message = "Save Location Successfull !";
+                        }
+                        else
+                        {
+                            ViewBag.message = "Save failed";
+                        }
+                    } 
                 }
+               
             }
+           
             
             
             return View();
+        }
+
+        public JsonResult GetOrganizationBranchIdByOrganizationId(int organizationId)
+        {
+            var organaizationBranchLists = orgManager.GetOrganizationBranchIdByOrganizationId(organizationId);
+            return Json(organaizationBranchLists, JsonRequestBehavior.AllowGet);
         }
 	}
 }

@@ -28,5 +28,10 @@ namespace AssetTrakingSystemApp.BLL
 
         }
 
+        public List<CategorySetup> GetCategorySetupIdByGeneralCategoryId(int generalCategoryId)
+        {
+            return repository.GetCategorySetupIdByGeneralCategoryId(generalCategoryId);
+        }
+
     }
 }

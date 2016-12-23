@@ -6,51 +6,62 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Save Product details/Model details</h2>
+<h2 class="text-info">Save Product details/Model details</h2>
 
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.Code)</td>
-            <td>@Html.TextBoxFor(c => c.Code)</td>
-            <td>@Html.ValidationMessageFor(c => c.Code)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.ProductDescription)</td>
-            <td>@Html.TextAreaFor(c => c.ProductDescription)</td>
-            <td>@Html.ValidationMessageFor(c => c.ProductDescription)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.SubCategoryId)</td>
-            <td>@Html.DropDownListFor(c => c.SubCategoryId, new SelectList(ViewBag.SubCategoriesList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.SubCategoryId)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.CategorySetupId)</td>
-            <td>@Html.DropDownListFor(c => c.CategorySetupId, new SelectList(ViewBag.ProducCategoriesList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.CategorySetupId)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.GeneralCategoryId)</td>
-            <td>@Html.DropDownListFor(c => c.GeneralCategoryId, new SelectList(ViewBag.GeneralCategorisList, "Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.GeneralCategoryId)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save" /></td>
-        </tr>
-    </table>
+    <div>
+        @Html.LabelFor(c => c.GeneralCategoryId)
+        <select class="form-control" id="GeneralCategoryId" name="GeneralCategoryId">
+            <option>select..</option>
+            @foreach (var sym in ((List<GeneralCatagory>) ViewBag.GeneralCategorisList))
+            {
+                <option value="@sym.Id">@sym.Name</option>
+            }
+        </select>
+        @*@Html.DropDownListFor(c => c.GeneralCategoryId, new SelectList(ViewBag.GeneralCategorisList, "Id", "Name"))*@
+        @Html.ValidationMessageFor(c => c.GeneralCategoryId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.CategorySetupId)
+        <select class="form-control" id="CategorySetupId" name="CategorySetupId">
+            <option>Select..</option>
+        </select>
+        @Html.ValidationMessageFor(c => c.CategorySetupId)
+    </div>
+
+    <div>
+        @Html.LabelFor(c => c.SubCategoryId)
+        <select class="form-control" id="SubCategoryId" name="SubCategoryId">
+            <option>select..</option>
+        </select>
+        @Html.ValidationMessageFor(c => c.SubCategoryId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Code)
+        @Html.TextBoxFor(c => c.Code,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.Code)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.ProductDescription)
+        @Html.TextAreaFor(c => c.ProductDescription, new {@class = "form-control"})
+        @Html.ValidationMessageFor(c => c.ProductDescription)
+
+    </div>
+    <br/>
+    <div>
+        <button class="btn-primary" type="submit">Save</button>
+    </div>
     <br/><br/>
     
      @*<table class="table table-striped">
@@ -74,3 +85,75 @@
  
 
 }
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document)
+        .ready(function () {
+
+            //for get Category setup
+
+            $("#GeneralCategoryId")
+                .change(function() {
+
+                    var distId = $("#GeneralCategoryId").val();
+                    $("#CategorySetupId").empty();
+                    $("#SubCategoryId").empty();
+                    var json = {
+                        generalCategoryId: distId
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetCategorySetupIdByGeneralCategoryId", "ProductCategoris")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+
+                        success: function(data) {
+                            $("#CategorySetupId").prepend('<option >select..</option>');
+                            //alert(data);
+                            $.each(data,
+                                function(key, value) {
+                                    //alert(key);
+
+                                    $("#CategorySetupId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+
+
+                                });
+                        }
+                    });
+                });
+
+            //for sub category 
+
+            $("#CategorySetupId")
+                .change(function () {
+
+                    var distId = $("#CategorySetupId").val();
+                    $("#SubCategoryId").empty();
+                    var json = {
+                        CategorySetupId: distId
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetSubCategoryIdByCategorySetupId", "SubCategory")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+
+                        success: function (data) {
+                            $("#SubCategoryId").prepend('<option >select..</option>');
+                            //alert(data);
+                            $.each(data,
+                                function (key, value) {
+                                    //alert(key);
+
+                                    $("#SubCategoryId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+
+
+                                });
+                        }
+                    });
+                });
+        });
+</script>

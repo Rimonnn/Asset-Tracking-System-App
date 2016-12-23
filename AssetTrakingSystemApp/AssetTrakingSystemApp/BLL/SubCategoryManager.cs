@@ -24,5 +24,10 @@ namespace AssetTrakingSystemApp.BLL
         {
             return repository.isCodeExist(code);
         }
+
+        public List<SubCategory> GetSubCategoryIdByCategorySetupId(int CategorySetupId)
+        {
+            return repository.GetSubCategoryIdByCategorySetupId(CategorySetupId);
+        }
     }
 }

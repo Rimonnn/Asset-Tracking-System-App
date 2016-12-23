@@ -35,6 +35,13 @@ namespace AssetTrakingSystemApp.DAL
                 return false;
             }
         }
+
+        public List<SubCategory> GetSubCategoryIdByCategorySetupId(int CategorySetupId)
+        {
+            var subCategoriesLists = db.SubCategories.Where(c => c.CategorySetupId == CategorySetupId).ToList();
+
+            return subCategoriesLists.ToList();
+        } 
     }
   
 }

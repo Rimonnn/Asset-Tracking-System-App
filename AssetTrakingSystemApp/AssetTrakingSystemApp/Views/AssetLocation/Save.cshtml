@@ -6,46 +6,55 @@
 }
 @if (ViewBag.message != null)
 {
-    <h4>@ViewBag.message</h4>
+    <h4 class="text-danger">@ViewBag.message</h4>
 }
-<h2>Save Asset Location</h2>
+<h2 class="text-info">Save Asset Location</h2>
 
 @using (Html.BeginForm())
 {
-    <table>
-        <tr>
-            <td>@Html.LabelFor(c => c.Name)</td>
-            <td>@Html.TextBoxFor(c => c.Name)</td>
-            <td>@Html.ValidationMessageFor(c => c.Name)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.ShortName)</td>
-            <td>@Html.TextBoxFor(c => c.ShortName)</td>
-            <td>@Html.ValidationMessageFor(c => c.ShortName)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.OrganaizationBranchId)</td>
-            <td>@Html.DropDownListFor(c => c.OrganaizationBranchId, new SelectList( ViewBag.organizationList,"Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.OrganaizationBranchId)</td>
-        </tr>
-        <tr>
-            <td>@Html.LabelFor(c => c.OrganigationId)</td>
-            <td>@Html.DropDownListFor(c => c.OrganigationId, new SelectList(ViewBag.OrgBranchList,"Id", "Name"))</td>
-            <td>@Html.ValidationMessageFor(c => c.OrganigationId)</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" value="Save" /></td>
-        </tr>
-    </table>
+    <div>
+        @Html.LabelFor(c => c.OrganigationId)
+        <select class="form-control" id="OrganigationId" name="OrganigationId">
+            <option>select..</option>
+            @foreach (var sym in ((List<Organization>)ViewBag.organizationList))
+            {
+                <option value="@sym.Id">@sym.Name</option>
+            }
+        </select>       
+        @Html.ValidationMessageFor(c => c.OrganigationId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.OrganaizationBranchId)
+
+        <select class="form-control" id="OrganaizationBranchId" name="OrganaizationBranchId">
+            <option>select..</option>
+        </select>
+
+        @Html.ValidationMessageFor(c => c.OrganaizationBranchId)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.Name)
+        @Html.TextBoxFor(c => c.Name,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.Name)
+    </div>
+    <div>
+        @Html.LabelFor(c => c.ShortName)
+        @Html.TextBoxFor(c => c.ShortName,new{@class="form-control"})
+        @Html.ValidationMessageFor(c => c.ShortName)
+    </div>
+    <br/>
+    <div>
+        <button type="submit" class="btn-primary" > Save</button>
+    </div>
+   
     <br/><br/>
     
     
     
     <table class="table table-striped">
         <tr>
-            <th>Name</th>
-            <th>Short Name</th>
+            <th class="text-info">Name</th>
+            <th class="text-info">Short Name</th>
             @*<th>Organization branch</th>
             <th>Organization </th>*@
         </tr>
@@ -62,3 +71,42 @@
     </table>
 
 }
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+    $(document)
+        .ready(function () {
+
+            //for get OrganizationBranch
+
+            $("#OrganigationId")
+                .change(function() {
+
+                    var distId = $("#OrganigationId").val();
+                    $("#OrganaizationBranchId").empty();
+                    var json = {
+                        organizationId: distId
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("GetOrganizationBranchIdByOrganizationId", "AssetLocation")',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(json),
+
+                        success: function(data) {
+                            $("#OrganaizationBranchId").prepend('<option >select..</option>');
+                            //alert(data);
+                            $.each(data,
+                                function(key, value) {
+                                    //alert(key);
+
+                                    $("#OrganaizationBranchId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+
+
+                                });
+                        }
+                    });
+                });
+        });
+            </script>
